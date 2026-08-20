@@ -3,9 +3,12 @@
 ⚠️ **Note: The contents of this repo are copied mechanically from the [hax repo](https://github.com/cryspen/hax/tree/main/hax-lib/proof-libs/aeneas-lean). Please file any issues or PRs there.** ⚠️
 
 
-# Hax Lean Library
+# Support library for hax/Lean-translated Rust code
 
-This Lean library contains the Lean infrastructure of Hax. Most notably:
+[hax](https://hax.cryspen.com/) is a tool for translating a large subset of Rust into Lean and
+other languages.
+
+This library contains the Lean infrastructure of hax. Most notably:
 - the Lean extraction of our model of Rust core/std/alloc libraries and supporting infrastructure
 - tactics for verification of extracted code
 
