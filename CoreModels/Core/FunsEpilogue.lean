@@ -23,23 +23,10 @@ type-checks. -/
 
 namespace iter.range
 
-/-- The `Iterator::next` implementation for `core::ops::range::Range<A>`,
-    parameterised over the `Step` dictionary. -/
-def IteratorRange.next {A : Type} (StepInst : Step A) :
-    ops.range.Range A → Aeneas.Std.Result ((Option A) × ops.range.Range A) := fun range => do
-  let cmp ← StepInst.corecmpPartialOrdInst.partial_cmp range.start range.«end»
-  let isLess : Bool := match cmp with
-    | Option.some o => match o with
-                       | core.cmp.Ordering.Less => true
-                       | _ => false
-    | _ => false
-  if isLess then
-    let cur ← StepInst.cloneCloneInst.clone range.start
-    let next? ← StepInst.forward_checked cur 1#usize
-    match next? with
-    | Option.none      => .fail .panic
-    | Option.some next => .ok (Option.some cur, { range with start := next })
-  else .ok (Option.none, range)
+/-- The `Iterator::next` implementation for `core::ops::range::Range<A>`.
+    Downstream extractions reference it under this name; the definition itself is
+    in `FunsPrologue.lean`, which `Funs.lean` already needs before it. -/
+abbrev IteratorRange.next := @_root_.CoreModels.core.IteratorRange.next
 
 end iter.range
 
@@ -55,6 +42,25 @@ abbrev result.Result.Insts.CoreOpsTry_traitTry.branch :=
 /-- Same aliasing as `Result` above, for `?` on `Option`. -/
 abbrev option.Option.Insts.CoreOpsTry_traitTry.branch :=
   @option.Option.Insts.CoreOpsTry_traitTryTOptionInfallible.branch
+
+/-! ## Scalar Debug instances
+
+`Result::{unwrap, expect}` carry std's `E: Debug` bound, so extracted call sites
+pass a per-type dictionary. The model only has the blanket `impl<T> Debug for T`
+(a concrete `impl Debug for u8` would overlap it), so name the instances here. -/
+
+abbrev U8.Insts.CoreFmtDebug    : fmt.Debug Aeneas.Std.U8    := fmt.Debug.Blanket _
+abbrev U16.Insts.CoreFmtDebug   : fmt.Debug Aeneas.Std.U16   := fmt.Debug.Blanket _
+abbrev U32.Insts.CoreFmtDebug   : fmt.Debug Aeneas.Std.U32   := fmt.Debug.Blanket _
+abbrev U64.Insts.CoreFmtDebug   : fmt.Debug Aeneas.Std.U64   := fmt.Debug.Blanket _
+abbrev U128.Insts.CoreFmtDebug  : fmt.Debug Aeneas.Std.U128  := fmt.Debug.Blanket _
+abbrev Usize.Insts.CoreFmtDebug : fmt.Debug Aeneas.Std.Usize := fmt.Debug.Blanket _
+abbrev I8.Insts.CoreFmtDebug    : fmt.Debug Aeneas.Std.I8    := fmt.Debug.Blanket _
+abbrev I16.Insts.CoreFmtDebug   : fmt.Debug Aeneas.Std.I16   := fmt.Debug.Blanket _
+abbrev I32.Insts.CoreFmtDebug   : fmt.Debug Aeneas.Std.I32   := fmt.Debug.Blanket _
+abbrev I64.Insts.CoreFmtDebug   : fmt.Debug Aeneas.Std.I64   := fmt.Debug.Blanket _
+abbrev I128.Insts.CoreFmtDebug  : fmt.Debug Aeneas.Std.I128  := fmt.Debug.Blanket _
+abbrev Isize.Insts.CoreFmtDebug : fmt.Debug Aeneas.Std.Isize := fmt.Debug.Blanket _
 
 end core
 
