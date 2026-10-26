@@ -1,6 +1,6 @@
 
 
-⚠️ **Note: The contents of this repo are copied mechanically from the [hax repo](https://github.com/cryspen/hax/tree/main/hax-lib/proof-libs/aeneas-lean). Please file any issues or PRs there.** ⚠️
+⚠️ **Note: The contents of this repo are copied mechanically from the [hax repo](https://github.com/pereq-dev/hax/tree/main/hax-lib/proof-libs/lean). Please file any issues or PRs there.** ⚠️
 
 
 # Support library for hax/Lean-translated Rust code
